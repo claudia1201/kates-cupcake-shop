@@ -10,7 +10,7 @@ var cupcakeShop = {
     shop.inventory: An object, representing the available stock of each flavor of cupcake. 
       If there are four chocolate available, and two vanilla, the property will be equal to:
 
-      { 
+      {    
         chocolate: 4, 
         vanilla: 2 
       }
@@ -43,7 +43,12 @@ var cupcakeShop = {
   */
   addFlavor: function(type) {
 
-  },
+    if (!(type in cupcakeShop.inventory)){
+
+     return cupcakeShop.inventory[type]=0
+    
+    }
+},
 
   /*
     shop.removeFlavor: Accepts a string as a parameter, representing a cupcake flavor.
@@ -52,13 +57,23 @@ var cupcakeShop = {
   */
   removeFlavor: function(type) {
 
+    if (type in cupcakeShop.inventory){
+
+     return delete cupcakeShop.inventory[type]
+    
+    }
+
   },
 
   /*
     shop.listFlavors: Returns a list of the flavors for sale.
   */
   listFlavors: function() {
+    
 
+    return ( _.keys(cupcakeShop.inventory))
+
+    
   },
 
   /*
@@ -68,6 +83,11 @@ var cupcakeShop = {
       If that that cupcake flavor is available, returns 0.
   */
   showStock: function(flavor) {
+
+   if (flavor in cupcakeShop.inventory){
+    return cupcakeShop.inventory[flavor]
+   }
+   return 0
 
   },
 
@@ -83,6 +103,12 @@ var cupcakeShop = {
   */
   restock: function(flavor, count) {
 
+    if (flavor in cupcakeShop.inventory){
+      cupcakeShop.inventory[flavor]=cupcakeShop.inventory[flavor] + count
+    }
+    else
+      return cupcakeShop.inventory
+
   },
 
   /*
@@ -97,7 +123,12 @@ var cupcakeShop = {
         then return false.
   */
   makeSale: function(flavor) {
-
+    if((flavor in cupcakeShop.inventory) && cupcakeShop.inventory[flavor]!== 0){
+      cupcakeShop.inventory[flavor]= cupcakeShop.inventory[flavor] - 1
+      cupcakeShop.register= 3
+      return true
+    }
+    return false
   },
 
   /*
@@ -108,6 +139,9 @@ var cupcakeShop = {
   */
   reconcile: function() {
 
+    cupcakeShop.bank = cupcakeShop.bank + cupcakeShop.register
+    cupcakeShop.register = 0
+
   },
 
   /*
@@ -115,6 +149,8 @@ var cupcakeShop = {
       (Note: This shop does not ever sell cookies. It is a cupcake shop.)
   */
   sellsCookies: function() {
+
+    return false
     
   }
 
